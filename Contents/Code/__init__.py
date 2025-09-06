@@ -4,6 +4,7 @@
 import os
 import hashlib
 import json
+import uuid
 import re
 
 from io import open
@@ -21,13 +22,12 @@ class YoutubeDLAgent(Agent.TV_Shows):
 
     def search(self, results, media, lang, manual=False):
         results.Append(MetadataSearchResult(
-            id='youtube-dl|{}|{}'.format(media.filename, media.openSubtitlesHash),
+            id=str(uuid.uuid5(uuid.NAMESPACE_URL, media.filename)),
             name=media.title,
             year=None,
             lang=lang,
             score=100
         ))
-
         results.Sort('score', descending=True)
 
     def update(self, metadata, media, lang):
