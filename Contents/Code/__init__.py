@@ -14,10 +14,10 @@ def Start():
 class YoutubeDLAgent(Agent.TV_Shows):
     name = 'Youtube-DL'
     primary_provider = True
-    fallback_agent = False
+    fallback_agent = None
     contributes_to = None
     languages = [Locale.Language.English, ]
-    accepts_from = None
+    accepts_from = ['com.plexapp.agents.localmedia']
 
     def search(self, results, media, lang, manual=False):
         results.Append(MetadataSearchResult(
