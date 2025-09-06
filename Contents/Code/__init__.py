@@ -1,16 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, hashlib, re, inspect, json
-from io import open
+import os
+import hashlib
 import json
+import re
+
+from io import open
 
 def Start():
     Log("Starting up ...")
 
 class YoutubeDLAgent(Agent.TV_Shows):
-    name, primary_provider, fallback_agent, contributes_to, languages, accepts_from = (
-    'Youtube-DL', True, False, None, [Locale.Language.English, ], None)
+    name = 'Youtube-DL'
+    primary_provider = True
+    fallback_agent = False
+    contributes_to = None
+    languages = [Locale.Language.English, ]
+    accepts_from = None
 
     def search(self, results, media, lang, manual=False):
         results.Append(MetadataSearchResult(
@@ -38,7 +45,7 @@ class YoutubeDLAgent(Agent.TV_Shows):
                     continue
 
                 # Split the filepath and file extension
-                filepath, file_extension = os.path.splitext(file)
+                filepath, _ = os.path.splitext(file)
                 filepath = filepath.strip()
 
                 try:
@@ -63,7 +70,7 @@ class YoutubeDLAgent(Agent.TV_Shows):
                 for shootID in media.seasons[year].episodes:
                     episode = metadata.seasons[year].episodes[shootID]
                     episode_media = media.seasons[year].episodes[shootID]
-                    filepath, file_extension = os.path.splitext(episode_media.items[0].parts[0].file)
+                    filepath, _ = os.path.splitext(episode_media.items[0].parts[0].file)
                     filepath = filepath.strip()
 
                     Log("Processing: '{}' in {}".format(filepath, metadata.title))
