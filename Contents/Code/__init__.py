@@ -67,7 +67,12 @@ class YoutubeDLAgent(Agent.TV_Shows):
 
             # episode-level metadata
             episode.title = data.get('fulltitle', episode.title)
-            episode.summary = data.get("description", "")
+            description = data.get("description", "")
+            source_url = data.get("webpage_url") or data.get("original_url") or data.get("url")
+            if source_url:
+                episode.summary = "Original YouTube: %s\n\n%s" % (source_url, description) if description else "Original YouTube: %s" % source_url
+            else:
+                episode.summary = description
             episode.duration = int(data.get("duration", "0")) or None
             if 'upload_date' in data:
                 # episode.originally_available_at = Datetime.ParseDate(data['upload_date']).date()
